@@ -1,0 +1,310 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-06-17"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+data <- read.csv("ThesisFinal.csv", stringsAsFactors = F)
+clean_data <- na.omit(data)
+data
+str(clean_data)
+```
+```{r}
+#conversion from character to numerical variables
+str(clean_data)
+clean_data <- data[-c(1, 2), ]
+
+clean_data$Chatbot.questions_1 <- as.numeric(as.character(clean_data$Chatbot.questions_1))
+
+clean_data$Chatbot.questions_2 <- as.numeric(as.character(clean_data$Chatbot.questions_2))
+
+clean_data$Chatbot.questions_3 <- as.numeric(as.character(clean_data$Chatbot.questions_3))
+
+clean_data$Chatbot.questions_4 <- as.numeric(as.character(clean_data$Chatbot.questions_4))
+
+clean_data$Chatbot.questions_5 <- as.numeric(as.character(clean_data$Chatbot.questions_5))
+
+clean_data$Chatbot.questions_6 <- as.numeric(as.character(clean_data$Chatbot.questions_6))
+
+clean_data$Chatbot.questions_7 <- as.numeric(as.character(clean_data$Chatbot.questions_7))
+
+clean_data$Chatbot.questions_8 <- as.numeric(as.character(clean_data$Chatbot.questions_8))
+
+clean_data$Chatbot.questions_9 <- as.numeric(as.character(clean_data$Chatbot.questions_9))
+
+clean_data$Chatbot.questions_10 <- as.numeric(as.character(clean_data$Chatbot.questions_10))
+
+clean_data$Q13_1 <- as.numeric(as.character(clean_data$Q13_1))
+
+clean_data$Q13_2 <- as.numeric(as.character(clean_data$Q13_2))
+
+clean_data$Q13_3 <- as.numeric(as.character(clean_data$Q13_3))
+
+clean_data$Q13_4 <- as.numeric(as.character(clean_data$Q13_4))
+
+clean_data$Q13_5 <- as.numeric(as.character(clean_data$Q13_5))
+
+clean_data$Q13_6 <- as.numeric(as.character(clean_data$Q13_6))
+
+clean_data$Q13_7 <- as.numeric(as.character(clean_data$Q13_7))
+
+clean_data$Q13_7 <- as.numeric(as.character(clean_data$Q13_7))
+clean_data$Q13_8 <- as.numeric(as.character(clean_data$Q13_8))
+
+clean_data$Q13_9 <- as.numeric(as.character(clean_data$Q13_9))
+
+clean_data$Q13_10 <- as.numeric(as.character(clean_data$Q13_10))
+
+clean_data$Q13_11 <- as.numeric(as.character(clean_data$Q13_11))
+
+clean_data$Q13_12 <- as.numeric(as.character(clean_data$Q13_12))
+```
+```{r}
+#Gender proportion
+
+str(clean_data$Gender)
+clean_data$Gender <- as.numeric(as.character(clean_data$Gender))
+table(clean_data$Gender)
+
+51+81+1+3
+
+81/(51+81+1+3)
+```
+
+```{r}
+#age
+
+str(clean_data$Age)
+clean_data$Age <- as.numeric(as.character(clean_data$Age))
+table(clean_data$Age)
+mean(clean_data$Age)
+sd(clean_data$Age)
+```
+
+```{r}
+#cronbach alpha for PU
+install.packages("psych")
+library(psych)
+PU_construct <- clean_data [, c("Chatbot.questions_1", "Chatbot.questions_2", "Chatbot.questions_3")]
+str(clean_data$Chatbot.questions_1)
+PU_alpha <- psych::alpha(PU_construct)
+print(PU_alpha)
+
+#cronbach alpha for EU
+EU_construct <- clean_data [, c("Chatbot.questions_4", "Chatbot.questions_5", "Chatbot.questions_6")]
+EU_alpha <- psych::alpha(EU_construct)
+print(EU_alpha)
+
+#cronbach alpha for SP
+SP_construct <- clean_data [, c("Chatbot.questions_7", "Chatbot.questions_8", "Chatbot.questions_9","Chatbot.questions_10")]
+SP_alpha <- psych::alpha(SP_construct)
+print(SP_alpha)
+```
+```{r}
+AW_construct <- clean_data [, c("Q13_1", "Q13_13", "Q13_3")]
+AW_alpha <- psych::alpha(AW_construct, check.keys = T)
+print(AW_alpha)
+clean_data$Q13_13 <- recode(clean_data$Q13_2, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+
+US_construct <- clean_data [, c("Q13_4", "Q13_14", "Q13_6")]
+US_alpha <- psych::alpha(US_construct)
+print(US_alpha)
+clean_data$Q13_14 <- recode(clean_data$Q13_5, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+
+EV_construct <- clean_data [, c("Q13_7", "Q13_8", "Q13_9")]
+EV_alpha <- psych::alpha(EV_construct)
+print(EV_alpha)
+
+ET_construct <- clean_data [, c("Q13_10", "Q13_15", "Q13_12")]
+ET_alpha <- psych::alpha(ET_construct, check.keys = T)
+print(ET_alpha)
+clean_data$Q13_15 <- recode(clean_data$Q13_11, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+```
+
+```{r}
+#factor analysis for PU
+fa(PU_construct, nfactors = 1, rotate = "oblimin")
+
+#fa for EU
+fa(EU_construct, nfactors = 1, rotate = "oblimin")
+
+#fa for SP
+fa(SP_construct, nfactors = 1, rotate = "oblimin")
+```
+
+```{r}
+#prep for t-tests
+str(clean_data$FL_6_DO)
+AIchatbot_PU <- rowMeans(clean_data[clean_data$FL_6_DO == "AIChatbot", c("Chatbot.questions_1", "Chatbot.questions_2", "Chatbot.questions_3")])
+AIchatbot_EU <- rowMeans(clean_data[clean_data$FL_6_DO == "AIChatbot", c("Chatbot.questions_4", "Chatbot.questions_5", "Chatbot.questions_6")])
+AIchatbot_SP <- rowMeans(clean_data[clean_data$FL_6_DO == "AIChatbot", c("Chatbot.questions_7", "Chatbot.questions_8", "Chatbot.questions_9", "Chatbot.questions_10")])
+
+HumanAgent_PU <- rowMeans(clean_data[clean_data$FL_6_DO == "HumanAgent", c("Chatbot.questions_1", "Chatbot.questions_2", "Chatbot.questions_3")])
+HumanAgent_EU <- rowMeans(clean_data[clean_data$FL_6_DO == "HumanAgent", c("Chatbot.questions_4", "Chatbot.questions_5", "Chatbot.questions_6")])
+HumanAgent_SP <- rowMeans(clean_data[clean_data$FL_6_DO == "HumanAgent", c("Chatbot.questions_7", "Chatbot.questions_8", "Chatbot.questions_9", "Chatbot.questions_10")])
+```
+
+```{r}
+t_testconstruct1 <- t.test(AIchatbot_PU, HumanAgent_PU, alternative = "two.sided")
+t_testconstruct1
+sd(HumanAgent_PU)
+sd(AIchatbot_PU)
+t_testconstruct2 <- t.test(AIchatbot_EU, HumanAgent_EU, alternative = "two.sided")
+t_testconstruct2
+sd(HumanAgent_EU)
+sd(AIchatbot_EU)
+t_testconstruct3 <- t.test(AIchatbot_SP, HumanAgent_SP, alternative = "two.sided")
+t_testconstruct3
+sd(HumanAgent_SP)
+sd(AIchatbot_SP)
+```
+
+```{r}
+mean_values <- c(mean(AIchatbot_PU), mean(HumanAgent_PU),
+                 mean(AIchatbot_EU), mean(HumanAgent_EU),
+                 mean(AIchatbot_SP), mean(HumanAgent_SP))
+```
+
+```{r}
+par(mfcol = c(1, 3))
+
+# Plot for Construct 1
+barplot(height = mean_values[1:2],
+        names.arg = c("AI Chatbot", "Human Agent"),
+        col = c("lightblue", "lightgreen"),
+        ylim = c(0, max(mean_values) + 1),
+        main = "Construct 1 - Perceived Usefulness",
+        ylab = "Mean Score",
+        border = NA)
+
+# Plot for Construct 2
+barplot(height = mean_values[3:4],
+        names.arg = c("AI Chatbot", "Human Agent"),
+        col = c("lightblue", "lightgreen"),
+        ylim = c(0, max(mean_values) + 1),
+        main = "Construct 2 - Ease of Use",
+        ylab = "Mean Score",
+        border = NA)
+
+# Plot for Construct 3
+barplot(height = mean_values[5:6],
+        names.arg = c("AI Chatbot", "Human Agent"),
+        col = c("lightblue", "lightgreen"),
+        ylim = c(0, max(mean_values) + 1),
+        main = "Construct 3 - Social Presence",
+        ylab = "Mean Score",
+        border = NA)
+```
+
+```{r}
+#conversion from chr to numerical
+library(tidyverse)
+clean_data$Q13_2 <- recode(clean_data$Q13_2, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+clean_data$Q13_5 <- recode(clean_data$Q13_5, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+clean_data$Q13_11 <- recode(clean_data$Q13_11, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+```
+
+```{r}
+#converting a/b to numerical
+str(clean_data$FL_6_DO)
+clean_data$FL_6_DO <- ifelse(clean_data$FL_6_DO == "AIChatbot", 1, ifelse(clean_data$FL_6_DO == "HumanAgent", 2, NA))
+```
+
+```{r}
+library(interactions)
+
+PU_construct <- clean_data [, c("Chatbot.questions_1", "Chatbot.questions_2", "Chatbot.questions_3")]
+
+EU_construct <- clean_data [, c("Chatbot.questions_4", "Chatbot.questions_5", "Chatbot.questions_6")]
+
+SP_construct <- clean_data [, c("Chatbot.questions_7", "Chatbot.questions_8", "Chatbot.questions_9","Chatbot.questions_10")]
+```
+
+```{r}
+library(tidyverse)
+clean_data <- clean_data %>%
+  rename(Independent_Variable = FL_6_DO)
+```
+
+```{r}
+#AI literacy constructs
+library(interactions)
+library(ggplot2)
+
+clean_data$awareness <- rowMeans(clean_data[, c("Q13_1", "Q13_2", "Q13_3")])
+clean_data$usage <- rowMeans(clean_data[, c("Q13_4", "Q13_5", "Q13_6")])
+clean_data$evaluation <- rowMeans(clean_data[, c("Q13_7", "Q13_8", "Q13_9")])
+clean_data$ethics <- rowMeans(clean_data[, c("Q13_10", "Q13_11", "Q13_12")])
+
+# Combine moderator constructs into a single score
+clean_data$AI_Literacy <- rowMeans(clean_data[, c("awareness", "usage", "evaluation", "ethics")])
+
+clean_data$customer_trust <- rowMeans(clean_data[, c("Chatbot.questions_1", "Chatbot.questions_2", "Chatbot.questions_3", "Chatbot.questions_4", "Chatbot.questions_5", "Chatbot.questions_6", "Chatbot.questions_7", "Chatbot.questions_8", "Chatbot.questions_9","Chatbot.questions_10")])
+
+model <- lm(customer_trust ~ Independent_Variable * AI_Literacy, data = clean_data)
+
+johnson_neyman(model, pred = Independent_Variable, modx = AI_Literacy, alpha = 0.05, plot = TRUE)
+```
+
+```{r}
+clean_data$PU_construct <- rowMeans(clean_data[, c("Chatbot.questions_1", "Chatbot.questions_2", "Chatbot.questions_3")])
+clean_data$EU_construct <- rowMeans(clean_data[, c("Chatbot.questions_4", "Chatbot.questions_5", "Chatbot.questions_6")])
+clean_data$SP_construct <- rowMeans(clean_data[, c("Chatbot.questions_7", "Chatbot.questions_8", "Chatbot.questions_9", "Chatbot.questions_10")])
+model2 <- lm(PU_construct ~ Independent_Variable * AI_Literacy, data = clean_data)
+summary(model2)
+ggplot(clean_data, aes(x = AI_Literacy, y = customer_trust, color = factor(Independent_Variable))) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Interaction between FL_6_DO and Moderator",
+       x = "Moderator",
+       y = "Dependent Variable",
+       color = "FL_6_DO") +
+  theme_minimal()
+model3 <- lm(EU_construct ~ Independent_Variable * AI_Literacy, data = clean_data)
+model4 <- lm(SP_construct ~ Independent_Variable * AI_Literacy, data = clean_data)
+
+```
+
+```{r}
+#PU jn
+johnson_neyman(model2, pred = Independent_Variable, modx = AI_Literacy, alpha = 0.05, plot = TRUE)
+```
+
+```{r}
+#EU jn
+johnson_neyman(model3, pred = Independent_Variable, modx = AI_Literacy, alpha = 0.05, plot = TRUE)
+```
+
+```{r}
+#SP jn
+johnson_neyman(model4, pred = Independent_Variable, modx = AI_Literacy, alpha = 0.05, plot = TRUE)
+```
+
+```{r}
+str(clean_data)
+```
+
