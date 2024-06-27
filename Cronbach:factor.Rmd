@@ -1,0 +1,71 @@
+---
+title: "Cronbach and factor"
+output: html_document
+date: "2024-06-27"
+---
+
+```{r}
+data <- read.csv("ThesisFinal.csv", stringsAsFactors = F)
+clean_data <- na.omit(data)
+```
+
+```{r}
+clean_data <- data[-c(1, 2), ]
+
+clean_data$Q13_1 <- as.numeric(as.character(clean_data$Q13_1))
+
+clean_data$Q13_2 <- as.numeric(as.character(clean_data$Q13_2))
+
+clean_data$Q13_3 <- as.numeric(as.character(clean_data$Q13_3))
+
+clean_data$Q13_4 <- as.numeric(as.character(clean_data$Q13_4))
+
+clean_data$Q13_5 <- as.numeric(as.character(clean_data$Q13_5))
+
+clean_data$Q13_6 <- as.numeric(as.character(clean_data$Q13_6))
+
+clean_data$Q13_7 <- as.numeric(as.character(clean_data$Q13_7))
+
+clean_data$Q13_7 <- as.numeric(as.character(clean_data$Q13_7))
+clean_data$Q13_8 <- as.numeric(as.character(clean_data$Q13_8))
+
+clean_data$Q13_9 <- as.numeric(as.character(clean_data$Q13_9))
+
+clean_data$Q13_10 <- as.numeric(as.character(clean_data$Q13_10))
+
+clean_data$Q13_11 <- as.numeric(as.character(clean_data$Q13_11))
+
+clean_data$Q13_12 <- as.numeric(as.character(clean_data$Q13_12))
+```
+
+```{r}
+clean_data$Q13_13 <- recode(clean_data$Q13_2, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+AW_construct <- clean_data [, c("Q13_1", "Q13_13", "Q13_3")]
+AW_alpha <- psych::alpha(AW_construct, check.keys = T)
+print(AW_alpha)
+
+
+
+fa(AW_construct, nfactors = 1, rotate = "oblimin")
+
+clean_data$Q13_14 <- recode(clean_data$Q13_5, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+US_construct <- clean_data [, c("Q13_4", "Q13_14", "Q13_6")]
+US_alpha <- psych::alpha(US_construct)
+print(US_alpha)
+
+fa(US_construct, nfactors = 1, rotate = "oblimin")
+
+EV_construct <- clean_data [, c("Q13_7", "Q13_8", "Q13_9")]
+EV_alpha <- psych::alpha(EV_construct)
+print(EV_alpha)
+
+fa(EV_construct, nfactors = 1, rotate = "oblimin")
+
+clean_data$Q13_15 <- recode(clean_data$Q13_11, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+ET_construct <- clean_data [, c("Q13_10", "Q13_15", "Q13_12")]
+ET_alpha <- psych::alpha(ET_construct, check.keys = T)
+print(ET_alpha)
+
+fa(ET_construct, nfactors = 1, rotate = "oblimin")
+```
+
