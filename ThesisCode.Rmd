@@ -4,29 +4,6 @@ output: html_document
 date: "2024-06-17"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```{r}
 data <- read.csv("ThesisFinal.csv", stringsAsFactors = F)
 clean_data <- na.omit(data)
@@ -130,19 +107,28 @@ AW_alpha <- psych::alpha(AW_construct, check.keys = T)
 print(AW_alpha)
 clean_data$Q13_13 <- recode(clean_data$Q13_2, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
 
+
+fa(AW_construct, nfactors = 1, rotate = "oblimin")
+
 US_construct <- clean_data [, c("Q13_4", "Q13_14", "Q13_6")]
 US_alpha <- psych::alpha(US_construct)
 print(US_alpha)
 clean_data$Q13_14 <- recode(clean_data$Q13_5, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
 
+fa(US_construct, nfactors = 1, rotate = "oblimin")
+
 EV_construct <- clean_data [, c("Q13_7", "Q13_8", "Q13_9")]
 EV_alpha <- psych::alpha(EV_construct)
 print(EV_alpha)
+
+fa(EV_construct, nfactors = 1, rotate = "oblimin")
 
 ET_construct <- clean_data [, c("Q13_10", "Q13_15", "Q13_12")]
 ET_alpha <- psych::alpha(ET_construct, check.keys = T)
 print(ET_alpha)
 clean_data$Q13_15 <- recode(clean_data$Q13_11, `1` = 5, `2` = 4, `3` = 3, `4` = 2, `5` = 1)
+
+fa(ET_construct, nfactors = 1, rotate = "oblimin")
 ```
 
 ```{r}
